@@ -1,12 +1,12 @@
 package drampas.springframework.petclinic.services.map;
 
-import drampas.springframework.petclinic.model.Vet;
-import drampas.springframework.petclinic.model.Vet;
-import drampas.springframework.petclinic.services.CrudService;
+import drampas.springframework.petclinic.model.Vet;;
+import drampas.springframework.petclinic.services.VetService;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
-
-public class VetMapService extends AbstractMapService<Vet,Long> implements CrudService<Vet,Long> {
+@Service
+public class VetMapService extends AbstractMapService<Vet,Long> implements VetService {
 
     @Override
     public Vet findById(Long id) {
@@ -33,4 +33,9 @@ public class VetMapService extends AbstractMapService<Vet,Long> implements CrudS
         super.deleteById(id);
     }
 
+    @Override
+    public Vet findByLastName(String lastName) {
+        // TODO: 2/3/2023  
+        return null;
+    }
 }
