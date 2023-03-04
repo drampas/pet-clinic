@@ -1,11 +1,13 @@
 package drampas.springframework.petclinic.services.map;
 
 import drampas.springframework.petclinic.model.Owner;
-import drampas.springframework.petclinic.services.CrudService;
+import drampas.springframework.petclinic.services.OwnerService;
+import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Set;
-
-public class OwnerMapService extends AbstractMapService<Owner,Long> implements CrudService<Owner,Long> {
+@Service
+public class OwnerMapService extends AbstractMapService<Owner,Long> implements OwnerService {
     @Override
     public Owner findById(Long id) {
         return super.findById(id);
@@ -13,7 +15,7 @@ public class OwnerMapService extends AbstractMapService<Owner,Long> implements C
 
     @Override
     public Owner save(Owner object) {
-        return super.save(object.getId(), object);
+        return super.save(object);
     }
 
     @Override
@@ -29,5 +31,13 @@ public class OwnerMapService extends AbstractMapService<Owner,Long> implements C
     @Override
     public void deleteById(Long id) {
         super.deleteById(id);
+    }
+
+    @Override
+    public Owner findByLastName(String lastName) {
+        // TODO: 2/3/2023
+        Collection<Owner> collection=map.values();
+
+        return null;
     }
 }

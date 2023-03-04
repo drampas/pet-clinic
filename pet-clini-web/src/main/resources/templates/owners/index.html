@@ -9,5 +9,17 @@
 </h1>
 <body>
 <p th:text="'list of owners'">some text</p>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+  </tr>
+  <tr th:each="owner : ${owners}">
+    <td th:text="${owner.id}">id</td>
+    <td th:text="${owner.firstName}">first name</td>
+    <td th:text="${owner.lastName}">last name</td>
+  </tr>
+</table>
 </body>
 </html>
