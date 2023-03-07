@@ -1,14 +1,17 @@
 package drampas.springframework.petclinic.model;
 
-public class Vet extends Person{
+import java.util.HashSet;
+import java.util.Set;
 
-    public VetSpecialty getVetSpecialty() {
-        return vetSpecialty;
+public class Vet extends Person {
+
+    private Set<Specialty> Specialties=new HashSet<>();
+
+    public Set<Specialty> getSpecialties() {
+        return Specialties;
     }
 
-    public void setVetSpecialty(VetSpecialty vetSpecialty) {
-        this.vetSpecialty = vetSpecialty;
+    public void setSpecialties(Set<Specialty> Specialties) {
+        this.Specialties = Specialties;
     }
-
-    private VetSpecialty vetSpecialty;
 }

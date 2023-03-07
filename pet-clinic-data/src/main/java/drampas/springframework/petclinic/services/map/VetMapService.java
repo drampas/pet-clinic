@@ -1,6 +1,8 @@
 package drampas.springframework.petclinic.services.map;
 
-import drampas.springframework.petclinic.model.Vet;;
+import drampas.springframework.petclinic.model.Specialty;
+import drampas.springframework.petclinic.model.Vet;
+import drampas.springframework.petclinic.services.SpecialtyService;
 import drampas.springframework.petclinic.services.VetService;
 import org.springframework.stereotype.Service;
 
@@ -8,14 +10,31 @@ import java.util.Set;
 @Service
 public class VetMapService extends AbstractMapService<Vet,Long> implements VetService {
 
+    private final SpecialtyService specialtyService;
+
+    public VetMapService(SpecialtyService specialtyService) {
+        this.specialtyService = specialtyService;
+    }
+
     @Override
     public Vet findById(Long id) {
         return super.findById(id);
     }
-
+    //making sure that specialty has an id before saving the vet
     @Override
     public Vet save(Vet object) {
-        return super.save(object);
+        if(object!=null){
+            if(object.getSpecialties()!=null) {
+                object.getSpecialties().forEach(specialty -> {
+                    if (specialty.getId() == null) {
+                        Specialty savedSpecialty = specialtyService.save(specialty);
+                        specialty.setId(savedSpecialty.getId());
+                    }
+                });
+            }
+            return super.save(object);
+        }else
+            return null;
     }
 
     @Override
