@@ -1,6 +1,6 @@
 package drampas.springframework.petclinic.model;
 
-public class VetSpecialty extends BaseEntity{
+public class Specialty extends BaseEntity{
 
     private String description;
 

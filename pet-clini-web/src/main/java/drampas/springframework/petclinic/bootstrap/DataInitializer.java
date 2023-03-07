@@ -1,11 +1,9 @@
 package drampas.springframework.petclinic.bootstrap;
 
-import drampas.springframework.petclinic.model.Owner;
-import drampas.springframework.petclinic.model.Pet;
-import drampas.springframework.petclinic.model.PetType;
-import drampas.springframework.petclinic.model.Vet;
+import drampas.springframework.petclinic.model.*;
 import drampas.springframework.petclinic.services.OwnerService;
 import drampas.springframework.petclinic.services.PetTypeService;
+import drampas.springframework.petclinic.services.SpecialtyService;
 import drampas.springframework.petclinic.services.VetService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -18,16 +16,24 @@ public class DataInitializer implements CommandLineRunner {
     private final VetService vetService;
     private final OwnerService ownerService;
     private final PetTypeService petTypeService;
+    private final SpecialtyService specialtyService;
 
-    public DataInitializer(VetService vetService, OwnerService ownerService,PetTypeService petTypeService) {
+    public DataInitializer(VetService vetService, OwnerService ownerService, PetTypeService petTypeService, SpecialtyService specialtyService) {
         this.vetService = vetService;
         this.ownerService = ownerService;
         this.petTypeService = petTypeService;
+        this.specialtyService = specialtyService;
     }
 
     @Override
     public void run(String... args) throws Exception {
 
+        int count = petTypeService.findAll().size();
+        if(count == 0){
+            loadData();
+        }
+    }
+    private void loadData() {
         PetType dog=new PetType();
         dog.setName("dog");
         PetType savedDogPetType = petTypeService.save(dog);
@@ -69,15 +75,25 @@ public class DataInitializer implements CommandLineRunner {
         ownerService.save(owner2);
         System.out.println("Loaded owners.....");
 
+        Specialty surgery=new Specialty();
+        surgery.setDescription("Surgery");
+        Specialty savedSurgery = specialtyService.save(surgery);
+
+        Specialty dentistry=new Specialty();
+        surgery.setDescription("Dentistry");
+        Specialty savedDentistry = specialtyService.save(dentistry);
+
         Vet vet1=new Vet();
         vet1.setFirstName("Annie");
         vet1.setLastName("Pope");
+        vet1.getSpecialties().add(savedSurgery);
 
         vetService.save(vet1);
 
         Vet vet2=new Vet();
         vet2.setFirstName("George");
         vet2.setLastName("Baker");
+        vet2.getSpecialties().add(savedDentistry);
 
         vetService.save(vet2);
 
