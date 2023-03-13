@@ -1,7 +1,14 @@
 package drampas.springframework.petclinic.model;
 
-public class PetType extends BaseEntity {
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "types")
+public class PetType extends BaseEntity {
+    @Column(name = "name")
     private String name;
 
     public String getName() {
