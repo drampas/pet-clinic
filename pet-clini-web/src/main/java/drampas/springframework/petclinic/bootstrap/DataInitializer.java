@@ -1,10 +1,7 @@
 package drampas.springframework.petclinic.bootstrap;
 
 import drampas.springframework.petclinic.model.*;
-import drampas.springframework.petclinic.services.OwnerService;
-import drampas.springframework.petclinic.services.PetTypeService;
-import drampas.springframework.petclinic.services.SpecialtyService;
-import drampas.springframework.petclinic.services.VetService;
+import drampas.springframework.petclinic.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +14,14 @@ public class DataInitializer implements CommandLineRunner {
     private final OwnerService ownerService;
     private final PetTypeService petTypeService;
     private final SpecialtyService specialtyService;
+    private final VisitService visitService;
 
-    public DataInitializer(VetService vetService, OwnerService ownerService, PetTypeService petTypeService, SpecialtyService specialtyService) {
+    public DataInitializer(VetService vetService, OwnerService ownerService, PetTypeService petTypeService, SpecialtyService specialtyService, VisitService visitService) {
         this.vetService = vetService;
         this.ownerService = ownerService;
         this.petTypeService = petTypeService;
         this.specialtyService = specialtyService;
+        this.visitService = visitService;
     }
 
     @Override
@@ -74,6 +73,12 @@ public class DataInitializer implements CommandLineRunner {
 
         ownerService.save(owner2);
         System.out.println("Loaded owners.....");
+
+        Visit visit = new Visit();
+        visit.setVisitDate(LocalDate.now());
+        visit.setPet(marksPet);
+        visit.setDescription("broken leg");
+        visitService.save(visit);
 
         Specialty surgery=new Specialty();
         surgery.setDescription("Surgery");
