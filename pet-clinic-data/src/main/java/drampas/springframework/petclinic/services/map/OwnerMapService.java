@@ -5,11 +5,13 @@ import drampas.springframework.petclinic.model.Pet;
 import drampas.springframework.petclinic.services.OwnerService;
 import drampas.springframework.petclinic.services.PetService;
 import drampas.springframework.petclinic.services.PetTypeService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Set;
 @Service
+@Profile({"default","map"})
 public class OwnerMapService extends AbstractMapService<Owner,Long> implements OwnerService {
 
     private final PetService petService;
