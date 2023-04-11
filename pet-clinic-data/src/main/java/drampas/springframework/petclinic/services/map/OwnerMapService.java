@@ -7,8 +7,6 @@ import drampas.springframework.petclinic.services.PetService;
 import drampas.springframework.petclinic.services.PetTypeService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
 import java.util.Set;
 @Service
 @Profile({"default","map"})
@@ -67,9 +65,10 @@ public class OwnerMapService extends AbstractMapService<Owner,Long> implements O
 
     @Override
     public Owner findByLastName(String lastName) {
-        // TODO: 2/3/2023
-        Collection<Owner> collection=map.values();
-
-        return null;
+        return this.findAll()
+                .stream()
+                .filter(owner -> owner.getLastName().equalsIgnoreCase(lastName))
+                .findFirst()
+                .orElse(null);
     }
 }
