@@ -36,19 +36,10 @@ class OwnerControllerTest {
     }
 
     @Test
-    void ownerList() throws Exception {
-        Mockito.when(ownerService.findAll()).thenReturn(owners);
-        mockMvc.perform(MockMvcRequestBuilders.get("/owners"))
+    void findOwners() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/owners/find"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("owners/index"))
-                .andExpect(MockMvcResultMatchers.model().attribute("owners", Matchers.hasSize(2))); //org.hamcrest.Matchers
-    }
-    @Test
-    void ownerListIndex() throws Exception {
-        Mockito.when(ownerService.findAll()).thenReturn(owners);
-        mockMvc.perform(MockMvcRequestBuilders.get("/owners/index"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("owners/index"))
-                .andExpect(MockMvcResultMatchers.model().attribute("owners", Matchers.hasSize(2))); //org.hamcrest.Matchers
+                .andExpect(MockMvcResultMatchers.view().name("owners/findOwners"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("owner")); //org.hamcrest.Matchers
     }
 }
