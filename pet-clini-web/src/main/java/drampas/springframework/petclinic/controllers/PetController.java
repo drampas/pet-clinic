@@ -8,15 +8,14 @@ import drampas.springframework.petclinic.services.PetService;
 import drampas.springframework.petclinic.services.PetTypeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
 
 @Controller
+@RequestMapping("{ownerId}")
 public class PetController {
 
     private final PetService petService;
@@ -36,7 +35,11 @@ public class PetController {
     public Owner findOwner(@PathVariable("ownerId") Long ownerId){
         return ownerService.findById(ownerId);
     }
-    @RequestMapping("{ownerId}/pets/new")
+    @InitBinder("owner")
+    public void initOwnerBinder(WebDataBinder dataBinder) {
+        dataBinder.setDisallowedFields("id");
+    }
+    @RequestMapping("/pets/new")
     public String getPetForm(Owner owner, Model model){
         Pet pet=new Pet();
         owner.getPets().add(pet);
@@ -44,10 +47,23 @@ public class PetController {
         model.addAttribute("pet",pet);
         return "pets/petForm";
     }
-    @PostMapping("{ownerId}/pets/new")
-    public String addPet(Model model,Owner owner,Pet pet){
+    @PostMapping("/pets/new")
+    public String addPet(Owner owner,Pet pet){
+        owner.getPets().add(pet);
+        pet.setOwner(owner);
         petService.save(pet);
-        model.addAttribute("owner",owner);
+        return "redirect:/"+owner.getId();
+    }
+    @GetMapping("/pets/{petId}/edit")
+    public String getPopulatedPetForm(@PathVariable Long petId,Model model,Owner owner){
+        Pet pet=petService.findById(petId);
+        model.addAttribute("pet",pet);
+        return "pets/petForm";
+    }
+    @PostMapping("/pets/{petId}/edit")
+    public String updatePet(Owner owner,Pet pet){
+        pet.setOwner(owner);
+        petService.save(pet);
         return "redirect:/"+owner.getId();
     }
 }
