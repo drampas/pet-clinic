@@ -91,7 +91,7 @@ public class DataInitializer implements CommandLineRunner {
         System.out.println("Loaded owners.....");
 
         Visit visit = new Visit();
-        visit.setVisitDate(LocalDate.now());
+        visit.setDate(LocalDate.now());
         visit.setPet(marksPet);
         visit.setDescription("broken leg");
         visitService.save(visit);

@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Table(name = "visits")
 public class Visit extends BaseEntity{
     @Column(name = "visit_date")
-    private LocalDate visitDate;
+    private LocalDate date;
     @ManyToOne
     @JoinColumn(name = "pet_id")
     private Pet pet;
